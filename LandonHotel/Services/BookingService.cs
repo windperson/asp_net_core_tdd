@@ -24,7 +24,7 @@ namespace LandonHotel.Services
             var guestIsSmoking = booking.IsSmoking;
             var guestIsBringingPets = booking.HasPets;
             var numberOfGuests = booking.NumberOfGuests;
-            return false;
+            return !guestIsSmoking;
         }
     }
 }
