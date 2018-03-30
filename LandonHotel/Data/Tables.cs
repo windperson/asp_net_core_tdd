@@ -20,6 +20,9 @@ namespace LandonHotel.Data
         public DateTime CheckOutDate { get; set; }
         public bool IsSmoking { get; set; }
         public bool HasPets { get; set; }
+
+        public int NumberOfGuests { get; set; }
+
         public int RoomId { get; set; }
     }
 }
