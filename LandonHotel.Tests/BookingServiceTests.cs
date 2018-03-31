@@ -41,51 +41,19 @@ namespace LandonHotel.Tests
             Assert.False(isValid);
         }
 
-        [Fact]
-        public void IsBookingValid_PetsAllowed_IsValid()
+        [Theory]
+        [InlineData(false,true,false)]
+        [InlineData(false, false, true)]
+        [InlineData(true, true, true)]
+        [InlineData(true, false, true)]
+        public void IsBookingValid_Pets(bool areAllowed, bool hasPets, bool result)
         {
             var service = Subject();
-            _roomRepo.Setup(r => r.GetRoom(1)).Returns(new Room {ArePetsAllowed = true});
+            _roomRepo.Setup(r => r.GetRoom(1)).Returns(new Room(){ArePetsAllowed = areAllowed});
 
-            bool isValid = service.IsBookingValid(1, new Booking {HasPets = true});
+            var isValid = service.IsBookingValid(1, new Booking{HasPets = hasPets});
 
-            Assert.True(isValid);
-        }
-
-        [Fact]
-        public void IsBookingValid_PetsAllowd_IsValid()
-        {
-            var service = Subject();
-            _roomRepo.Setup(r => r.GetRoom(1)).Returns(new Room { ArePetsAllowed = true });
-
-            bool isValid = service.IsBookingValid(1, new Booking { HasPets = false });
-
-            Assert.True(isValid);
-        }
-
-        [Fact]
-        public void IsBookingValid_NoPetsAllowd_IsValid()
-        {
-            var service = Subject();
-            _roomRepo.Setup(r => r.GetRoom(1)).Returns(new Room { ArePetsAllowed = true });
-
-            bool isValid = service.IsBookingValid(1, new Booking { HasPets = false });
-
-            Assert.True(isValid);
-        }
-
-        [Fact]
-        public void IsBookingValid_PetsNotAllowed_Invalid()
-        {
-            //Arrange
-            var service = Subject();
-            _roomRepo.Setup(r => r.GetRoom(1)).Returns(new Room {ArePetsAllowed = false});
-
-            //Act
-            var isValid = service.IsBookingValid(1, new Booking {HasPets = true});
-
-            //Assert
-            Assert.False(isValid);
+            Assert.Equal(isValid, result);
         }
         
     }
